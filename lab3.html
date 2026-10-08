@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CampusLearn - Computer Science Fundamentals</title>
+  <style>
+    /* CSS Variables & Theme */
+    :root {
+      --navy-dark: #0f172a;
+      --navy-header: #1e3a8a;
+      --blue-primary: #2563eb;
+      --blue-hover: #1d4ed8;
+      --blue-light: #eff6ff;
+      --bg-page: #f8fcf8;
+      --bg-card: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --status-completed: #10b981;
+      --status-progress: #f59e0b;
+      --status-notstarted: #9ca3af;
+      --radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: green;
+      line-height: 1.5;
+    }
+
+    a {
+      color: green;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      background-color: pink;
+      color: #ffffff;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: green;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      background-color: #ffffff;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: green;
+      font-size: 1.1rem;
+    }
+
+    .brand-text .title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      line-height: 1.1;
+    }
+
+    .brand-text .tagline {
+      font-size: 0.68rem;
+      color: #93c5fd;
+    }
+
+    header nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+
+    header nav a {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #dbeafe;
+      padding: 0.3rem 0;
+      transition: color 0.2s;
+    }
+
+    header nav a:hover, header nav a.active {
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .pdf-btn, .search-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .pdf-btn:hover, .search-btn:hover {
+      background: #ffffff;
+      color: var(--navy-header);
+    }
+
+    /* 3-Column Layout Container */
+    .page-wrapper {
+      max-width: 1320px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 210px 1fr 300px;
+      gap: 1.5rem;
+    }
+
+    /* Cards Styling */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      margin-bottom: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #1e3a8a;
+    }
+
+    /* Left Sidebar Navigation */
+    .left-sidebar .nav-menu {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .left-sidebar .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-main);
+      border-bottom: 1px solid var(--border-color);
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .left-sidebar .nav-item:last-child {
+      border-bottom: none;
+    }
+
+    .left-sidebar .nav-item:hover {
+      background-color: var(--blue-light);
+      color: var(--blue-primary);
+      text-decoration: none;
+    }
+
+    .left-sidebar .nav-item.active {
+      background-color: var(--blue-primary);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Main Content Column */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      position: relative;
+      background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.8)), 
+                  url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+      border-radius: var(--radius);
+      color: #ffffff;
+      padding: 2.2rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .hero-banner h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+      line-height: 1.2;
+    }
+
+    .hero-banner p {
+      font-size: 0.92rem;
+      color: #cbd5e1;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: var(--blue-primary);
+      color: #ffffff !important;
+      padding: 0.5rem 1.1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      text-decoration: none !important;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background-color: var(--blue-hover);
+    }
+
+    /* Welcome Section */
+    .welcome-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .welcome-section h2 {
+      font-size: 1.3rem;
+      color: #1e3a8a;
+      margin-bottom: 0.4rem;
+      font-weight: 700;
+    }
+
+    .welcome-section p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* 4 Pillars Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.1rem 0.6rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      color: inherit;
+      text-decoration: none;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--blue-primary);
+      text-decoration: none;
+    }
+
+    .feature-icon {
+      width: 42px;
+      height: 42px;
+      background: #dbeafe;
+      color: var(--blue-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.6rem auto;
+      font-size: 1.05rem;
+      font-weight: bold;
+    }
+
+    .feature-card h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+      color: #1e3a8a;
+      font-weight: 700;
+    }
+
+    .feature-card p {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* Course Modules Table */
+    .modules-section {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .modules-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .modules-table th {
+      background-color: #25aceb;
+      color: #ffffff;
+      text-align: left;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .modules-table td {
+      padding: 0.6rem 0.9rem;
+      font-size: 0.82rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .modules-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .badge-completed { background-color: var(--status-completed); }
+    .badge-progress { background-color: var(--status-progress); }
+    .badge-notstarted { background-color: var(--status-notstarted); }
+
+    /* Gallery Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+    }
+
+    .gallery-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 105px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-item p {
+      padding: 0.45rem;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-main);
+      text-align: center;
+    }
+
+    /* Dual Grid (Key Topics & Useful Links) */
+    .dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .custom-list {
+      list-style: none;
+    }
+
+    .custom-list li {
+      font-size: 0.82rem;
+      padding: 0.3rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-main);
+    }
+
+    .custom-list li::before {
+      content: "•";
+      color: var(--blue-primary);
+      font-weight: bold;
+    }
+
+    /* CTA Callout Banner */
+    .cta-card {
+      background-color: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius);
+      padding: 1.1rem 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-content {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .cta-icon {
+      font-size: 1.3rem;
+      color: var(--blue-primary);
+    }
+
+    .cta-text h4 {
+      font-size: 0.88rem;
+      color: #1e3a8a;
+      font-weight: 700;
+    }
+
+    .cta-text p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    /* Right Sidebar Column */
+    .right-sidebar {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP RIGHT UNIVERSITY PICTURE CARD */
+    .univ-image-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.25rem;
+      display: block;
+      transition: opacity 0.2s;
+    }
+
+    .univ-image-card:hover {
+      opacity: 0.9;
+    }
+
+    .univ-image-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .sidebar-links {
+      list-style: none;
+    }
+
+    .sidebar-links li {
+      margin-bottom: 0.55rem;
+    }
+
+    .sidebar-links a {
+      font-size: 0.82rem;
+      color: var(--blue-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .event-item {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .event-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .event-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .event-date {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-bottom: 0.75rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+      color: var(--text-main);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.45rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 0.8rem;
+      background-color: #f8fafc;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      height: 55px;
+    }
+
+    .btn-full {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #1e3a8a;
+      color: #93c5fd;
+      padding: 1.5rem 2rem;
+      font-size: 0.8rem;
+      margin-top: 2rem;
+    }
+
+    .footer-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: #ffffff;
+      font-size: 0.82rem;
+    }
+
+    .footer-bottom {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 0.8rem;
+      font-size: 0.75rem;
+      color: #cbd5e1;
+    }
+
+    /* Modals & Toast */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      background: #ffffff;
+      border-radius: var(--radius);
+      width: 90%;
+      max-width: 480px;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 0.8rem;
+      right: 1rem;
+      font-size: 1.4rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--navy-dark);
+      color: #ffffff;
+      padding: 0.65rem 1.2rem;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 3000;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Printable CSS Rules */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      header, .pdf-btn, .search-btn, .toast, .modal-overlay {
+        display: none !important;
+      }
+      .page-wrapper {
+        display: grid !important;
+        grid-template-columns: 180px 1fr 260px !important;
+        gap: 1rem !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .card, .modules-section, .hero-banner {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .page-wrapper { grid-template-columns: 1fr; }
+      .left-sidebar { display: none; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .dual-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body id="home">
+
+  <!-- Top Header Navigation -->
+  <header>
+    <a href="#home" class="brand">
+      <div class="brand-logo">C</div>
+      <div class="brand-text">
+        <div class="title">CampusLearn</div>
+        <div class="tagline">Learn • Build • Grow</div>
+      </div>
+    </a>
+
+    <nav>
+      <ul>
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Computer_science" target="_blank" rel="noopener">About CS</a></li>
+        <li><a href="https://cs50.harvard.edu/x/2024/" target="_blank" rel="noopener">CS Courses</a></li>
+        <li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/" target="_blank" rel="noopener">CS Resources</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <button class="pdf-btn" onclick="exportToPDF()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+        </svg>
+        <span>Save as PDF</span>
+      </button>
+
+      <button class="search-btn" onclick="openSearchModal()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main 3-Column Page Wrapper -->
+  <div class="page-wrapper">
+
+    <!-- LEFT SIDEBAR NAVIGATION WITH REAL CS REDIRECTS -->
+    <aside class="left-sidebar">
+      <div class="nav-menu">
+        <a href="#home" class="nav-item active"><span>🏠</span> Home</a>
+        <a href="https://en.wikipedia.org/wiki/Computer_science" target="_blank" rel="noopener" class="nav-item"><span>📖</span> Course Overview</a>
+        <a href="https://cs50.harvard.edu/college/2024/fall/syllabus/" target="_blank" rel="noopener" class="nav-item"><span>📋</span> CS Syllabus</a>
+        <a href="https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/download/" target="_blank" rel="noopener" class="nav-item"><span>📚</span> Study Materials</a>
+        <a href="https://cs50.harvard.edu/college/2024/fall/psets/" target="_blank" rel="noopener" class="nav-item"><span>📝</span> CS Assignments</a>
+        <a href="https://cs50.harvard.edu/college/2024/fall/faqs/" target="_blank" rel="noopener" class="nav-item"><span>❓</span> CS FAQ</a>
+      </div>
+    </aside>
+
+    <!-- CENTER MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- Hero Banner -->
+      <section class="hero-banner">
+        <h1>Computer Science<br>Fundamentals</h1>
+        <p>Learn the basics. Build the future.</p>
+        <a href="https://cs50.harvard.edu/x/2024/" target="_blank" rel="noopener" class="btn">Explore CS50 Course &rarr;</a>
+      </section>
+
+      <!-- Welcome Section -->
+      <section class="welcome-section" id="welcome">
+        <h2>Welcome to Computer Science Fundamentals</h2>
+        <p>This course introduces the core principles of computer science, algorithmic thinking, software development, and web technologies. Designed for students starting their technology journey.</p>
+      </section>
+
+      <!-- 4 Pillars Grid -->
+      <section class="features-grid">
+        <a href="https://en.wikipedia.org/wiki/Computer_science" target="_blank" rel="noopener" class="feature-card">
+          <div class="feature-icon">&lt;/&gt;</div>
+          <h3>Learn</h3>
+          <p>Understand computer science concepts & algorithms.</p>
+        </a>
+        <a href="https://www.leetcode.com" target="_blank" rel="noopener" class="feature-card">
+          <div class="feature-icon">💻</div>
+          <h3>Practice</h3>
+          <p>Solve coding problems on LeetCode & HackerRank.</p>
+        </a>
+        <a href="https://education.github.com" target="_blank" rel="noopener" class="feature-card">
+          <div class="feature-icon">💡</div>
+          <h3>Build</h3>
+          <p>Create real-world CS projects on GitHub.</p>
+        </a>
+        <a href="https://www.coursera.org/browse/computer-science" target="_blank" rel="noopener" class="feature-card">
+          <div class="feature-icon">👥</div>
+          <h3>Grow</h3>
+          <p>Advance with university CS certifications.</p>
+        </a>
+      </section>
+
+      <!-- Course Modules Table -->
+      <section class="modules-section" id="modules-section">
+        <div class="card-title" style="margin-bottom:0.5rem;">
+          <span>📋</span> Course Modules
+        </div>
+        <table class="modules-table">
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Topic</th>
+              <th>Week</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><a href="https://en.wikipedia.org/wiki/Introduction_to_computer_science" target="_blank" rel="noopener">Introduction to Computers & Binary</a></td>
+              <td>Week 1</td>
+              <td><span class="badge badge-completed" onclick="toggleBadge(this)">Completed</span></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><a href="https://www.python.org/about/gettingstarted/" target="_blank" rel="noopener">Programming Basics (Python)</a></td>
+              <td>Week 2 – 3</td>
+              <td><span class="badge badge-progress" onclick="toggleBadge(this)">In Progress</span></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><a href="https://developer.mozilla.org/en-US/docs/Learn" target="_blank" rel="noopener">Web Technologies (HTML, CSS & JS)</a></td>
+              <td>Week 4 – 5</td>
+              <td><span class="badge badge-notstarted" onclick="toggleBadge(this)">Not Started</span></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><a href="https://en.wikipedia.org/wiki/Data_structure" target="_blank" rel="noopener">Data Structures & Algorithms</a></td>
+              <td>Week 6</td>
+              <td><span class="badge badge-notstarted" onclick="toggleBadge(this)">Not Started</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Gallery Grid -->
+      <section class="card" id="gallery-section">
+        <div class="card-title">
+          <span>🖼️</span> Computer Science in Action
+        </div>
+        <div class="gallery-grid">
+          <a href="https://www.freecodecamp.org/news/learn-to-code-book/" target="_blank" rel="noopener" class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80" alt="Learning to Code" />
+            <p>Learning to Code</p>
+          </a>
+          <a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/" target="_blank" rel="noopener" class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80" alt="Study Materials" />
+            <p>MIT Open Courseware</p>
+          </a>
+          <a href="https://github.com/features/copilot" target="_blank" rel="noopener" class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80" alt="Collaborative Development" />
+            <p>Collaborative Dev</p>
+          </a>
+        </div>
+      </section>
+
+      <!-- Key Topics & Useful Links Dual Grid -->
+      <div class="dual-grid" id="useful-links">
+        <div class="card">
+          <div class="card-title">
+            <span>📌</span> Core CS Topics
+          </div>
+          <ul class="custom-list">
+            <li><a href="https://en.wikipedia.org/wiki/Computer_architecture" target="_blank" rel="noopener">Computer Architecture</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Operating_system" target="_blank" rel="noopener">Operating Systems</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Programming_language" target="_blank" rel="noopener">Programming Languages</a></li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web" target="_blank" rel="noopener">Web Development Standard</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Algorithm" target="_blank" rel="noopener">Algorithms & Computational Complexity</a></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>⭐</span> CS Portals & References
+          </div>
+          <ul class="custom-list">
+            <li><a href="https://www.geeksforgeeks.org/computer-science-projects/" target="_blank" rel="noopener">GeeksforGeeks CS Portal</a></li>
+            <li><a href="https://javascript.info/" target="_blank" rel="noopener">Modern JavaScript Tutorial</a></li>
+            <li><a href="https://education.github.com/pack" target="_blank" rel="noopener">GitHub Student Developer Pack</a></li>
+            <li><a href="https://developer.mozilla.org" target="_blank" rel="noopener">MDN Web Documentation</a></li>
+            <li><a href="https://www.coursera.org/courses?query=computer%20science" target="_blank" rel="noopener">Coursera Computer Science</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Callout Banner -->
+      <div class="cta-card">
+        <div class="cta-content">
+          <div class="cta-icon">💻</div>
+          <div class="cta-text">
+            <h4>Ready to start Harvard's CS50?</h4>
+            <p>Access free lecture notes, problem sets, and video tutorials online.</p>
+          </div>
+        </div>
+        <a href="https://cs50.harvard.edu/x/2024/" target="_blank" rel="noopener" class="btn">Start CS50 Free &rarr;</a>
+      </div>
+
+    </main>
+
+    <!-- RIGHT SIDEBAR COLUMN -->
+    <aside class="right-sidebar">
+
+      <!-- TOP RIGHT UNIVERSITY PICTURE LINK (Redirects to MIT CS) -->
+      <a href="https://www.eecs.mit.edu/" target="_blank" rel="noopener" class="univ-image-card" title="Visit MIT Department of Electrical Engineering & Computer Science">
+        <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80" alt="MIT EECS Department" />
+      </a>
+
+      <!-- Quick Links Card (All Redirecting to authentic CS links) -->
+      <div class="card">
+        <div class="card-title">🔗 CS Quick Links</div>
+        <ul class="sidebar-links">
+          <li><a href="https://cs50.harvard.edu/college/2024/fall/syllabus/" target="_blank" rel="noopener">&rarr; Official CS Syllabus</a></li>
+          <li><a href="https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/lecture-slides-code/" target="_blank" rel="noopener">&rarr; CS Lecture Slides & Notes</a></li>
+          <li><a href="https://www.geeksforgeeks.org/fundamentals-of-algorithms/" target="_blank" rel="noopener">&rarr; Algorithms Resource</a></li>
+          <li><a href="https://stackoverflow.com/questions/tagged/computer-science" target="_blank" rel="noopener">&rarr; CS StackOverflow Forum</a></li>
+          <li><a href="https://www.acm.org/" target="_blank" rel="noopener">&rarr; ACM Computing Society</a></li>
+        </ul>
+      </div>
+
+      <!-- Upcoming Events Card -->
+      <div class="card" id="events-section">
+        <div class="card-title">📅 Academic Calendar</div>
+        <div class="event-item">
+          <div class="event-title">Problem Set 1 (C & Logic)</div>
+          <div class="event-date">Oct 15, 2026</div>
+        </div>
+        <div class="event-item">
+          <div class="event-title">Data Structures Quiz</div>
+          <div class="event-date">Oct 28, 2026</div>
+        </div>
+        <div class="event-item">
+          <div class="event-title">Web Dev Project Submission</div>
+          <div class="event-date">Nov 12, 2026</div>
+        </div>
+      </div>
+
+      <!-- Contact Us Card -->
+      <div class="card" id="contact-section">
+        <div class="card-title">✉️ Contact CS Dept</div>
+        <form onsubmit="handleContactSubmit(event)">
+          <div class="form-group">
+            <label>Name *</label>
+            <input type="text" placeholder="Enter your full name" required />
+          </div>
+          <div class="form-group">
+            <label>Student Email *</label>
+            <input type="email" placeholder="student@university.edu" required />
+          </div>
+          <div class="form-group">
+            <label>Inquiry *</label>
+            <textarea placeholder="Ask about syllabus, assignments or resources..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-full">Send Message</button>
+        </form>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <ul class="footer-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Computer_science" target="_blank" rel="noopener">About CS</a></li>
+        <li><a href="https://cs50.harvard.edu/college/2024/fall/syllabus/" target="_blank" rel="noopener">Syllabus</a></li>
+        <li><a href="https://ocw.mit.edu/" target="_blank" rel="noopener">MIT OCW</a></li>
+        <li><a href="#contact-section">Contact</a></li>
+      </ul>
+      <div class="footer-bottom">
+        <div>&copy; 2026 CampusLearn • Computer Science Academic Portal</div>
+        <div style="display:flex; gap:0.8rem;">
+          <a style="color:#ffffff;" href="https://www.facebook.com/groups/computerscience" target="_blank" rel="noopener">FB</a>
+          <a style="color:#ffffff;" href="https://twitter.com/ACM" target="_blank" rel="noopener">TW</a>
+          <a style="color:#ffffff;" href="https://www.linkedin.com/company/association-for-computing-machinery/" target="_blank" rel="noopener">IN</a>
+          <a style="color:#ffffff;" href="https://www.youtube.com/c/freecodecamp" target="_blank" rel="noopener">YT</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Search Modal -->
+  <div class="modal-overlay" id="searchModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('searchModal')">&times;</button>
+      <h3 style="color:#1e3a8a; margin-bottom:0.8rem;">Search CS Topics</h3>
+      <input type="text" id="searchInput" placeholder="Search Python, Algorithms, Data Structures..." style="width:100%; padding:0.5rem; margin-bottom:0.8rem; border:1px solid var(--border-color); border-radius:4px;" onkeypress="handleSearch(event)" />
+      <p style="font-size:0.8rem; color:var(--text-muted);">Press Enter to search GeeksforGeeks for this topic.</p>
+    </div>
+  </div>
+
+  <!-- Toast Bar -->
+  <div class="toast" id="toastBar">
+    <span id="toastMessage">Notification</span>
+  </div>
+
+  <script>
+    function showToast(msg) {
+      const toast = document.getElementById('toastBar');
+      document.getElementById('toastMessage').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function exportToPDF() {
+      showToast('Opening print preview to save PDF...');
+      setTimeout(() => {
+        window.print();
+      }, 400);
+    }
+
+    function toggleBadge(badge) {
+      if (badge.classList.contains('badge-completed')) {
+        badge.className = 'badge badge-progress';
+        badge.textContent = 'In Progress';
+      } else if (badge.classList.contains('badge-progress')) {
+        badge.className = 'badge badge-notstarted';
+        badge.textContent = 'Not Started';
+      } else {
+        badge.className = 'badge badge-completed';
+        badge.textContent = 'Completed';
+      }
+      showToast('Status changed to ' + badge.textContent);
+    }
+
+    function openSearchModal() {
+      document.getElementById('searchModal').classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function handleSearch(e) {
+      if (e.key === 'Enter') {
+        const query = encodeURIComponent(e.target.value);
+        if (query) {
+          window.open('https://www.geeksforgeeks.org/search/?q=' + query, '_blank');
+          closeModal('searchModal');
+        }
+      }
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      showToast('Inquiry sent to CS Department!');
+      e.target.reset();
+    }
+
+    window.onclick = function(e) {
+      if (e.target.classList.contains('modal-overlay')) {
+        e.target.classList.remove('active');
+      }
+    };
+  </script>
+</body>
+</html>
